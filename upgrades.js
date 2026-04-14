@@ -30,8 +30,8 @@ let avatarState = {
 
 function buildAvatarSVG(stateOverride) {
   const s = stateOverride || avatarState;
-  const skin = s.skinColor;
-  const hair = s.hairColor;
+  const skin = s.skinColor || s.skin || '#f5deb3';
+  const hair = s.hairColor || s.hair || '#d4a017';
   const expr = s.expression || 'happy';
 
   // Armor fills
@@ -153,6 +153,101 @@ function buildAvatarSVG(stateOverride) {
     mouthPath = `<path d="M${cx-2},${headCY+21} Q${cx+5},${headCY+19} ${cx+9},${headCY+22}"
       stroke="#a06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
     cheeksPath = '';
+  } else if (expr === 'surprised') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY-2}" rx="8" ry="10" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY-2}" rx="8" ry="10" fill="#1a1a2e"/>
+      <ellipse cx="${eLx}" cy="${eY-2}" rx="5" ry="6" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eRx}" cy="${eY-2}" rx="5" ry="6" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eLx-2}" cy="${eY-5}" rx="2" ry="2" fill="white" opacity="0.9"/>
+      <ellipse cx="${eRx-2}" cy="${eY-5}" rx="2" ry="2" fill="white" opacity="0.9"/>
+      <path d="M${eLx-8},${eY-14} Q${eLx},${eY-18} ${eLx+8},${eY-14}" stroke="#1a1a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <path d="M${eRx-8},${eY-14} Q${eRx},${eY-18} ${eRx+8},${eY-14}" stroke="#1a1a2e" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    mouthPath = `<ellipse cx="${cx}" cy="${headCY+22}" rx="7" ry="8" fill="#c06060" opacity="0.8"/>
+      <ellipse cx="${cx}" cy="${headCY+22}" rx="4" ry="5" fill="#4a1a1a" opacity="0.7"/>`;
+    cheeksPath = `
+      <ellipse cx="${cx-22}" cy="${headCY+6}" rx="9" ry="5" fill="#ffaaaa" opacity="0.5"/>
+      <ellipse cx="${cx+22}" cy="${headCY+6}" rx="9" ry="5" fill="#ffaaaa" opacity="0.5"/>`;
+  } else if (expr === 'sleepy') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY+2}" rx="7" ry="4" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY+2}" rx="7" ry="4" fill="#1a1a2e"/>
+      <path d="M${eLx-7},${eY-2} Q${eLx},${eY-5} ${eLx+7},${eY-2}" fill="#1a1a2e"/>
+      <path d="M${eRx-7},${eY-2} Q${eRx},${eY-5} ${eRx+7},${eY-2}" fill="#1a1a2e"/>
+      <text x="${cx+rc.headR-6}" y="${headCY-rc.headR+2}" fill="#c9a84c" font-size="11" font-weight="bold" opacity="0.8">z</text>
+      <text x="${cx+rc.headR+2}" y="${headCY-rc.headR-8}" fill="#c9a84c" font-size="8" font-weight="bold" opacity="0.6">z</text>`;
+    mouthPath = `<path d="M${cx-7},${headCY+21} Q${cx},${headCY+24} ${cx+7},${headCY+21}" stroke="#a06060" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = `
+      <ellipse cx="${cx-20}" cy="${headCY+12}" rx="8" ry="4" fill="#ffaaaa" opacity="0.3"/>
+      <ellipse cx="${cx+20}" cy="${headCY+12}" rx="8" ry="4" fill="#ffaaaa" opacity="0.3"/>`;
+  } else if (expr === 'smug') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="7" ry="6" fill="#1a1a2e"/>
+      <ellipse cx="${eLx}" cy="${eY}" rx="4" ry="3.5" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="7" ry="7" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="4.5" ry="4.5" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eLx-2}" cy="${eY-2}" rx="1.5" ry="1.5" fill="white" opacity="0.8"/>
+      <ellipse cx="${eRx-2}" cy="${eY-3}" rx="1.8" ry="1.8" fill="white" opacity="0.9"/>
+      <line x1="${eLx-8}" y1="${eY-8}" x2="${eLx+8}" y2="${eY-10}" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="${eRx-8}" y1="${eY-12}" x2="${eRx+8}" y2="${eY-8}" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>`;
+    mouthPath = `<path d="M${cx-8},${headCY+22} Q${cx-2},${headCY+18} ${cx+8},${headCY+23}" stroke="#c06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = '';
+  } else if (expr === 'wink') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="7" ry="8" fill="#1a1a2e"/>
+      <ellipse cx="${eLx}" cy="${eY}" rx="4.5" ry="5" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eLx-2}" cy="${eY-3}" rx="1.8" ry="1.8" fill="white" opacity="0.9"/>
+      <path d="M${eRx-7},${eY} Q${eRx},${eY-8} ${eRx+7},${eY}" stroke="#1a1a2e" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M${eRx-6},${eY-1} Q${eRx},${eY-7} ${eRx+6},${eY-1}" stroke="${irisColor}" stroke-width="1.5" fill="none" opacity="0.6"/>`;
+    mouthPath = `<path d="M${cx-9},${headCY+18} Q${cx},${headCY+26} ${cx+9},${headCY+18}" stroke="#c06060" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = `
+      <ellipse cx="${cx-20}" cy="${headCY+10}" rx="8" ry="5" fill="#ffaaaa" opacity="0.45"/>
+      <ellipse cx="${cx+20}" cy="${headCY+10}" rx="8" ry="5" fill="#ffaaaa" opacity="0.45"/>`;
+  } else if (expr === 'grumpy') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="7" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="${eLx}" cy="${eY}" rx="4" ry="3" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="7" ry="5" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="4" ry="3" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eLx-2}" cy="${eY-2}" rx="1.4" ry="1.4" fill="white" opacity="0.8"/>
+      <ellipse cx="${eRx-2}" cy="${eY-2}" rx="1.4" ry="1.4" fill="white" opacity="0.8"/>
+      <line x1="${eLx-8}" y1="${eY-7}" x2="${eLx+8}" y2="${eY-3}" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>
+      <line x1="${eRx-8}" y1="${eY-3}" x2="${eRx+8}" y2="${eY-7}" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round"/>`;
+    mouthPath = `<path d="M${cx-8},${headCY+24} Q${cx},${headCY+18} ${cx+8},${headCY+24}" stroke="#804040" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = '';
+  } else if (expr === 'loveeyes') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="8" ry="9" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="8" ry="9" fill="#1a1a2e"/>
+      <text x="${eLx-5}" y="${eY+5}" fill="#ff6b8a" font-size="11">&#9829;</text>
+      <text x="${eRx-5}" y="${eY+5}" fill="#ff6b8a" font-size="11">&#9829;</text>`;
+    mouthPath = `<path d="M${cx-10},${headCY+17} Q${cx},${headCY+28} ${cx+10},${headCY+17}" stroke="#c06060" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = `
+      <ellipse cx="${cx-22}" cy="${headCY+8}" rx="10" ry="6" fill="#ff6b8a" opacity="0.55"/>
+      <ellipse cx="${cx+22}" cy="${headCY+8}" rx="10" ry="6" fill="#ff6b8a" opacity="0.55"/>`;
+  } else if (expr === 'thinking') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="7" ry="8" fill="#1a1a2e"/>
+      <ellipse cx="${eLx}" cy="${eY}" rx="4.5" ry="5" fill="${irisColor}" opacity="0.85"/>
+      <ellipse cx="${eLx-2}" cy="${eY-3}" rx="1.8" ry="1.8" fill="white" opacity="0.9"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="7" ry="4" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="4" ry="2.5" fill="${irisColor}" opacity="0.85"/>
+      <line x1="${eRx-7}" y1="${eY-8}" x2="${eRx+7}" y2="${eY-6}" stroke="#1a1a2e" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="${cx+rc.headR-2}" y="${headCY-rc.headR-2}" fill="#c9a84c" font-size="14" opacity="0.85">?</text>`;
+    mouthPath = `<path d="M${cx-4},${headCY+21} Q${cx+4},${headCY+20} ${cx+8},${headCY+23}" stroke="#a06060" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = '';
+  } else if (expr === 'crylaugh') {
+    eyesPath = `
+      <ellipse cx="${eLx}" cy="${eY}" rx="7" ry="6" fill="#1a1a2e"/>
+      <ellipse cx="${eRx}" cy="${eY}" rx="7" ry="6" fill="#1a1a2e"/>
+      <path d="M${eLx-7},${eY-2} Q${eLx},${eY-5} ${eLx+7},${eY-2}" fill="#1a1a2e"/>
+      <path d="M${eRx-7},${eY-2} Q${eRx},${eY-5} ${eRx+7},${eY-2}" fill="#1a1a2e"/>
+      <path d="M${eLx-2},${eY+6} C${eLx-4},${headCY+4} ${eLx-2},${headCY+10} ${eLx},${headCY+14}" stroke="#88ccff" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M${eRx+2},${eY+6} C${eRx+4},${headCY+4} ${eRx+2},${headCY+10} ${eRx},${headCY+14}" stroke="#88ccff" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+    mouthPath = `<path d="M${cx-10},${headCY+18} Q${cx},${headCY+28} ${cx+10},${headCY+18}" stroke="#c06060" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+    cheeksPath = `
+      <ellipse cx="${cx-20}" cy="${headCY+10}" rx="9" ry="5" fill="#ff6060" opacity="0.5"/>
+      <ellipse cx="${cx+20}" cy="${headCY+10}" rx="9" ry="5" fill="#ff6060" opacity="0.5"/>`;
   }
 
   // ─── CLOAK ───────────────────────────────────────────────
@@ -490,6 +585,83 @@ function buildAvatarSVG(stateOverride) {
       <circle cx="${cx-18}" cy="${headCY-rc.headR}" r="3" fill="#fb7185"/>
       <circle cx="${cx}" cy="${headCY-rc.headR-2}" r="4" fill="#2dd4bf"/>
       <circle cx="${cx+18}" cy="${headCY-rc.headR}" r="3" fill="#fb7185"/>
+    </g>`;
+  } else if (s.extra === 'mustache') {
+    extraPath = `<g id="avatar-layer-extra">
+      <path d="M${cx-16},${headCY+14}
+               C${cx-20},${headCY+11} ${cx-28},${headCY+10} ${cx-30},${headCY+14}
+               C${cx-28},${headCY+18} ${cx-20},${headCY+18} ${cx-12},${headCY+16}
+               C${cx-8},${headCY+15} ${cx-4},${headCY+16} ${cx},${headCY+15}
+               C${cx+4},${headCY+16} ${cx+8},${headCY+15} ${cx+12},${headCY+16}
+               C${cx+20},${headCY+18} ${cx+28},${headCY+18} ${cx+30},${headCY+14}
+               C${cx+28},${headCY+10} ${cx+20},${headCY+11} ${cx+16},${headCY+14}
+               C${cx+10},${headCY+12} ${cx+4},${headCY+13} ${cx},${headCY+13}
+               C${cx-4},${headCY+13} ${cx-10},${headCY+12} ${cx-16},${headCY+14}Z"
+            fill="#2a1a0e"/>
+      <path d="M${cx-30},${headCY+14} C${cx-34},${headCY+10} ${cx-32},${headCY+6} ${cx-28},${headCY+9}" stroke="#2a1a0e" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M${cx+30},${headCY+14} C${cx+34},${headCY+10} ${cx+32},${headCY+6} ${cx+28},${headCY+9}" stroke="#2a1a0e" stroke-width="2" fill="none" stroke-linecap="round"/>
+    </g>`;
+  } else if (s.extra === 'glasses') {
+    extraPath = `<g id="avatar-layer-extra">
+      <circle cx="${eLx}" cy="${eY+1}" r="9" fill="none" stroke="#4a3a2a" stroke-width="2.5" opacity="0.9"/>
+      <circle cx="${eRx}" cy="${eY+1}" r="9" fill="none" stroke="#4a3a2a" stroke-width="2.5" opacity="0.9"/>
+      <line x1="${eLx+9}" y1="${eY+1}" x2="${eRx-9}" y2="${eY+1}" stroke="#4a3a2a" stroke-width="2" stroke-linecap="round"/>
+      <path d="M${eLx-9},${eY+1} C${eLx-12},${eY-2} ${eLx-14},${eY+2} ${eLx-12},${eY+5}" stroke="#4a3a2a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M${eRx+9},${eY+1} C${eRx+12},${eY-2} ${eRx+14},${eY+2} ${eRx+12},${eY+5}" stroke="#4a3a2a" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <circle cx="${eLx}" cy="${eY+1}" r="9" fill="rgba(180,220,255,0.12)"/>
+      <circle cx="${eRx}" cy="${eY+1}" r="9" fill="rgba(180,220,255,0.12)"/>
+    </g>`;
+  } else if (s.extra === 'monocle') {
+    extraPath = `<g id="avatar-layer-extra">
+      <circle cx="${eRx}" cy="${eY+1}" r="11" fill="none" stroke="#c9a84c" stroke-width="2.5" opacity="0.95"/>
+      <circle cx="${eRx}" cy="${eY+1}" r="11" fill="rgba(180,220,255,0.1)"/>
+      <path d="M${eRx+11},${eY+8} C${eRx+14},${eY+16} ${eRx+18},${headCY+14} ${eRx+14},${headCY+20}" stroke="#c9a84c" stroke-width="1.5" fill="none" stroke-dasharray="2,2" stroke-linecap="round"/>
+    </g>`;
+  } else if (s.extra === 'eyepatch') {
+    extraPath = `<g id="avatar-layer-extra">
+      <ellipse cx="${eLx}" cy="${eY+1}" rx="12" ry="10" fill="#1a1a1a" opacity="0.95"/>
+      <ellipse cx="${eLx}" cy="${eY+1}" rx="12" ry="10" fill="none" stroke="#4a3a2a" stroke-width="2"/>
+      <line x1="${eLx-12}" y1="${eY+1}" x2="${cx-rc.headR-6}" y2="${eY-4}" stroke="#4a3a2a" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="${eLx+12}" y1="${eY+1}" x2="${eLx+rc.headR}" y2="${eY-6}" stroke="#4a3a2a" stroke-width="2.5" stroke-linecap="round"/>
+    </g>`;
+  } else if (s.extra === 'partyhat') {
+    extraPath = `<g id="avatar-layer-extra">
+      <path d="M${cx-rc.headR+2},${headCY-rc.headR+2} L${cx+rc.headR-2},${headCY-rc.headR+2} L${cx+4},${headCY-rc.headR-58}Z" fill="#e03060" opacity="0.92"/>
+      <path d="M${cx-rc.headR+2},${headCY-rc.headR+2} L${cx+rc.headR-2},${headCY-rc.headR+2} L${cx+4},${headCY-rc.headR-58}Z" fill="none" stroke="#ff88aa" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.7"/>
+      <circle cx="${cx+4}" cy="${headCY-rc.headR-60}" r="7" fill="#ffdd44"/>
+      <circle cx="${cx+8}" cy="${headCY-rc.headR-66}" r="3" fill="#ff6688"/>
+      <circle cx="${cx-1}" cy="${headCY-rc.headR-67}" r="2.5" fill="#44ddaa"/>
+      <text x="${cx-rc.headR+8}" y="${headCY-rc.headR-8}" fill="white" font-size="9" opacity="0.7">&#9733;</text>
+      <text x="${cx+4}" y="${headCY-rc.headR-24}" fill="white" font-size="7" opacity="0.7">&#9670;</text>
+    </g>`;
+  } else if (s.extra === 'flowercrown') {
+    extraPath = `<g id="avatar-layer-extra">
+      <path d="M${cx-rc.headR+4},${headCY-rc.headR+4} C${cx-rc.headR},${headCY-rc.headR-4} ${cx-8},${headCY-rc.headR-10} ${cx},${headCY-rc.headR-12} C${cx+8},${headCY-rc.headR-10} ${cx+rc.headR},${headCY-rc.headR-4} ${cx+rc.headR-4},${headCY-rc.headR+4}" stroke="#4a8c2a" stroke-width="4" fill="none" stroke-linecap="round"/>
+      <circle cx="${cx-rc.headR+6}" cy="${headCY-rc.headR}" r="6" fill="#ff6688"/>
+      <circle cx="${cx-rc.headR+6}" cy="${headCY-rc.headR}" r="3" fill="#ffdd88"/>
+      <circle cx="${cx-10}" cy="${headCY-rc.headR-10}" r="5" fill="#ffaa44"/>
+      <circle cx="${cx-10}" cy="${headCY-rc.headR-10}" r="2.5" fill="#fff"/>
+      <circle cx="${cx+4}" cy="${headCY-rc.headR-13}" r="6" fill="#aa44ff"/>
+      <circle cx="${cx+4}" cy="${headCY-rc.headR-13}" r="3" fill="#ffdd88"/>
+      <circle cx="${cx+18}" cy="${headCY-rc.headR-8}" r="5" fill="#44ccaa"/>
+      <circle cx="${cx+18}" cy="${headCY-rc.headR-8}" r="2.5" fill="#fff"/>
+      <circle cx="${cx+rc.headR-6}" cy="${headCY-rc.headR}" r="6" fill="#ff6688"/>
+      <circle cx="${cx+rc.headR-6}" cy="${headCY-rc.headR}" r="3" fill="#ffdd88"/>
+    </g>`;
+  } else if (s.extra === 'vikinghelm') {
+    extraPath = `<g id="avatar-layer-extra">
+      <path d="M${cx-rc.headR-2},${headCY-rc.headR+6} C${cx-rc.headR},${headCY-rc.headR-8} ${cx-8},${headCY-rc.headR-16} ${cx},${headCY-rc.headR-18} C${cx+8},${headCY-rc.headR-16} ${cx+rc.headR},${headCY-rc.headR-8} ${cx+rc.headR+2},${headCY-rc.headR+6} L${cx+rc.headR+6},${headCY-rc.headR+12} L${cx-rc.headR-6},${headCY-rc.headR+12}Z" fill="#8a8a9a" stroke="#aaaabc" stroke-width="1.5"/>
+      <path d="M${cx-rc.headR-4},${headCY-rc.headR+4} C${cx-rc.headR-12},${headCY-rc.headR-10} ${cx-rc.headR-18},${headCY-rc.headR-24} ${cx-rc.headR-8},${headCY-rc.headR-36} C${cx-rc.headR-2},${headCY-rc.headR-30} ${cx-rc.headR+2},${headCY-rc.headR-14} ${cx-rc.headR},${headCY-rc.headR+4}" fill="#f0e8d0" stroke="#c8b870" stroke-width="1.5"/>
+      <path d="M${cx+rc.headR+4},${headCY-rc.headR+4} C${cx+rc.headR+12},${headCY-rc.headR-10} ${cx+rc.headR+18},${headCY-rc.headR-24} ${cx+rc.headR+8},${headCY-rc.headR-36} C${cx+rc.headR+2},${headCY-rc.headR-30} ${cx+rc.headR-2},${headCY-rc.headR-14} ${cx+rc.headR},${headCY-rc.headR+4}" fill="#f0e8d0" stroke="#c8b870" stroke-width="1.5"/>
+      <rect x="${cx-rc.headR-6}" y="${headCY-rc.headR+10}" width="${rc.headR*2+12}" height="8" fill="#7a7a8a" rx="3" opacity="0.8"/>
+    </g>`;
+  } else if (s.extra === 'fez') {
+    extraPath = `<g id="avatar-layer-extra">
+      <path d="M${cx-rc.headR+8},${headCY-rc.headR+4} L${cx-12},${headCY-rc.headR-38} L${cx+12},${headCY-rc.headR-38} L${cx+rc.headR-8},${headCY-rc.headR+4}Z" fill="#cc2222" stroke="#aa1a1a" stroke-width="1.5"/>
+      <ellipse cx="${cx}" cy="${headCY-rc.headR+4}" rx="${rc.headR-6}" ry="6" fill="#cc2222" stroke="#aa1a1a" stroke-width="1.5"/>
+      <ellipse cx="${cx}" cy="${headCY-rc.headR+4}" rx="${rc.headR-6}" ry="3" fill="#e03333" opacity="0.5"/>
+      <circle cx="${cx}" cy="${headCY-rc.headR-38}" r="3" fill="#cc2222"/>
+      <path d="M${cx},${headCY-rc.headR-38} C${cx+8},${headCY-rc.headR-34} ${cx+12},${headCY-rc.headR-28} ${cx+10},${headCY-rc.headR-20}" stroke="#ffcc00" stroke-width="2.5" fill="none" stroke-linecap="round"/>
     </g>`;
   }
 
@@ -1329,6 +1501,26 @@ function shuffleCatchphrase(charId) {
 }
 
 function removeCharacter(charId) {
+  const char = getLibrary().find(c => c.id === charId);
+  const charName = char ? char.name : 'this character';
+  const pw = window.prompt(`Type "delete" to permanently remove ${charName}:`);
+  if (pw === null) return; // cancelled
+  if (pw.trim().toLowerCase() !== 'delete') {
+    // Show inline error on the card instead of an alert
+    const card = document.getElementById('lib-card-' + charId);
+    if (card) {
+      let errEl = card.querySelector('.delete-err');
+      if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.className = 'delete-err';
+        errEl.style.cssText = 'color:#ef4444;font-size:0.72rem;margin-top:4px;text-align:center;';
+        card.querySelector('.library-card-actions').after(errEl);
+      }
+      errEl.textContent = '✗ Wrong password — character safe.';
+      setTimeout(() => { if (errEl) errEl.remove(); }, 2500);
+    }
+    return;
+  }
   const lib = getLibrary().filter(c => c.id !== charId);
   saveLibrary(lib);
   renderLibrary();
@@ -1346,6 +1538,9 @@ function renderLibrary() {
   if (!container) return;
 
   const lib = getLibrary();
+  // Update sidebar pin count
+  const pinCount = document.getElementById('lib-pin-count');
+  if (pinCount) pinCount.textContent = lib.length;
 
   if (lib.length === 0) {
     if (empty) empty.style.display = 'block';
@@ -1360,7 +1555,9 @@ function renderLibrary() {
     let svgHtml = buildAvatarSVG(char.avatarState);
     svgHtml = svgHtml.replace(/id="avatar-svg"/g, `id="avatar-svg-${char.id}"`)
                      .replace(/id="avatar-shadow"/g, `id="avatar-shadow-${char.id}"`)
-                     .replace(/url\(#avatar-shadow\)/g, `url(#avatar-shadow-${char.id})`);
+                     .replace(/url\(#avatar-shadow\)/g, `url(#avatar-shadow-${char.id})`)
+                     .replace(/id="avatar-darken"/g, `id="avatar-darken-${char.id}"`)
+                     .replace(/url\(#avatar-darken\)/g, `url(#avatar-darken-${char.id})`);
     const phrase  = char.catchphrases[char.catchphraseIdx || 0];
     const card    = document.createElement('div');
     card.className = 'library-card';
@@ -1373,7 +1570,7 @@ function renderLibrary() {
       <div class="library-char-name">${escapeHtmlChat(char.name)}</div>
       ${archetypeHtml}
       <div class="library-creator">Created by: ${escapeHtmlChat(char.creatorName)}</div>
-      <div class="library-catchphrase" id="cp-${char.id}">${escapeHtmlChat(phrase)}</div>
+      <div class="library-catchphrase" id="cp-${char.id}">${escapeHtmlChat(phrase || '')}</div>
       <div class="library-card-actions">
         <button class="btn-shuffle" onclick="shuffleCatchphrase(${char.id})">Shuffle ↻</button>
         <button class="btn-edit-char" onclick="openEditModal(${char.id})">✏️ Edit</button>
@@ -2388,6 +2585,16 @@ function initUpgrades() {
   addNavItem('coach-chat',   '💬', 'AI Coach');
   addNavItem('char-library', '📚', 'Library');
 
+  // ── Navigation history stack ────────────────────────────
+  window._navStack = window._navStack || [];
+
+  window.navBack = function() {
+    if (window._navStack.length < 2) { navigateTo('hub'); return; }
+    window._navStack.pop(); // remove current
+    const prev = window._navStack.pop(); // get previous (will be re-pushed by navigateTo)
+    navigateTo(prev || 'hub');
+  };
+
   // ── Patch navigateTo ──────────────────────────────────────
   if (typeof window.navigateTo === 'function') {
     const _origNavigateTo = window.navigateTo;
@@ -2406,11 +2613,36 @@ function initUpgrades() {
         };
       }
       _origNavigateTo.apply(this, arguments);
+      // Track history
+      window._navStack.push(section);
+      if (window._navStack.length > 30) window._navStack.shift();
+      // Update back-arrow button visibility + label
+      _updateBackArrow(section);
       // Toggle body class to hide float bar on coach-chat page
       document.body.classList.toggle('on-coach-chat', section === 'coach-chat');
       // Toggle body class for hub page (hides story sidebar chrome via CSS)
       document.body.classList.toggle('on-hub', section === 'hub');
     };
+  }
+
+  function _updateBackArrow(section) {
+    const btn = document.getElementById('nav-back-arrow-btn');
+    if (!btn) return;
+    const canGoBack = window._navStack.length >= 2;
+    const isHub = section === 'hub';
+    // Show back arrow on any non-hub page; hide on hub
+    btn.style.display = isHub ? 'none' : 'flex';
+    if (canGoBack && !isHub) {
+      const prev = window._navStack[window._navStack.length - 2];
+      const labels = {
+        'hub':'Home', 'quick-start':'Quick Start', 'tutorial':'Tutorial',
+        'simulator':'Simulator', 'builder':'Builder', 'ideas':'Ideas',
+        'factions':'Factions', 'coach-chat':'AI Coach', 'char-library':'Library'
+      };
+      btn.querySelector('.back-arrow-label').textContent = labels[prev] || 'Back';
+    } else {
+      btn.querySelector('.back-arrow-label').textContent = 'Back';
+    }
   }
 
   // ── Patch resetBuilder to clear q4/q5 ────────────────────

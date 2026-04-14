@@ -1723,6 +1723,49 @@ body.on-hub #coach-panel {
 
 
 /* =============================================
+   LIBRARY PIN + BACK ARROW
+   ============================================= */
+.sidebar-library-pin {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  margin: 0 8px 6px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-gold-dim);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+  user-select: none;
+}
+.sidebar-library-pin:hover {
+  background: var(--color-surface-offset);
+  border-color: var(--color-gold);
+}
+body:not(.on-hub) .sidebar-library-pin { display: flex; }
+body.on-hub .sidebar-library-pin { display: none; }
+.lib-pin-icon { font-size: 1.1rem; flex-shrink: 0; }
+.lib-pin-label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-gold);
+  flex: 1;
+}
+.lib-pin-count {
+  font-size: 0.65rem;
+  padding: 1px 7px;
+  border-radius: 99px;
+  background: var(--color-gold-dim);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* =============================================
    HUB LIGHT THEME — body.on-hub overrides
    Scoped only to hub page. Story sections stay dark.
    ============================================= */
@@ -2326,6 +2369,10 @@ body.on-hub .hub-stories-header {
       <div class="topbar-subtitle" id="topbar-site-subtitle">Choose Your Adventure</div>
     </div>
   </div>
+  <button id="nav-back-arrow-btn" onclick="navBack()" aria-label="Go back" style="display:none;align-items:center;gap:5px;background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:99px;padding:4px 12px 4px 8px;cursor:pointer;color:var(--color-text-muted);font-size:0.75rem;font-family:var(--font-body);transition:all 200ms;flex-shrink:0;" onmouseover="this.style.color='var(--color-gold)';this.style.borderColor='var(--color-gold-dim)'" onmouseout="this.style.color='var(--color-text-muted)';this.style.borderColor='var(--color-border)'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    <span class="back-arrow-label">Back</span>
+  </button>
   <button id="topbar-back-btn" onclick="navigateTo('hub')" aria-label="Back to all campaigns">
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
     All Campaigns
@@ -2417,6 +2464,13 @@ body.on-hub .hub-stories-header {
         <span class="nav-icon">🔱</span>
         <span class="nav-label">Faction Codex</span>
       </div>
+    </div>
+
+    <!-- Library quick-access pin — visible in story mode -->
+    <div id="sidebar-library-pin" class="sidebar-library-pin" onclick="navigateTo('char-library')" title="Character Library">
+      <span class="lib-pin-icon">📚</span>
+      <span class="lib-pin-label">My Library</span>
+      <span class="lib-pin-count" id="lib-pin-count">0</span>
     </div>
 
     <div class="sidebar-bottom">
